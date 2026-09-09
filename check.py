@@ -18,7 +18,11 @@ HOME = os.path.expanduser('~')
 HERE = os.path.dirname(os.path.abspath(__file__))
 UTILITY = HOME + '/Library/Application Support/Blackmagic Design/DaVinci Resolve/Fusion/Scripts/Utility'
 SCRIPTS = ['Toggle HD UHD.py', 'Previous Page.py', 'Create Timeline.py']
-HELPER = HOME + '/Developer/MANTRA_STAR/overlay/pages_helper.py'
+STAR = HOME + '/Developer/MANTRA_STAR'
+HELPER = STAR + '/overlay/pages_helper.py'
+# the star's side of the assistant, mirrored into star/ here so the GitHub repo holds everything;
+# the living copies are in MANTRA_STAR, install.sh refreshes the mirror
+MIRROR = ['overlay/pages_helper.py', 'overlay/hdbadge.lua', 'overlay/pagebadge.lua', 'apps/display.lua', 'apps/pages.lua']
 LOG = HOME + '/.config/resolve-assistant.log'
 PREF = HOME + '/Library/Preferences/Blackmagic Design/DaVinci Resolve/UI.preset'
 VERSION = HOME + '/Library/Preferences/Blackmagic Design/DaVinci Resolve/.version'
@@ -33,9 +37,13 @@ def line(mark, text):
         trouble.append(text)
 
 
+RESOLVE_BIN = 'DaVinci Resolve.app/Contents/MacOS/Resolve'   # the process is called Resolve, not DaVinci Resolve
+
+
 def running():
+    """By the executable's full path: pgrep -x "DaVinci Resolve" never matched (9.9.2026)."""
     try:
-        return subprocess.run(['pgrep', '-x', 'DaVinci Resolve'], capture_output=True, timeout=3).returncode == 0
+        return subprocess.run(['pgrep', '-f', RESOLVE_BIN], capture_output=True, timeout=3).returncode == 0
     except (OSError, subprocess.TimeoutExpired):
         return False
 
@@ -114,6 +122,22 @@ def main():
         else:
             line(OK, '%s installed and current' % name)
     line(OK if os.path.exists(HELPER) else BAD, 'pages_helper.py %s' % ('present' if os.path.exists(HELPER) else 'MISSING at ' + HELPER))
+
+    # ---- the star's side, mirrored here
+    if os.path.isdir(STAR):
+        stale = []
+        for rel in MIRROR:
+            live, copy = os.path.join(STAR, rel), os.path.join(HERE, 'star', os.path.basename(rel))
+            if not os.path.exists(live):
+                line(BAD, '%s is missing from MANTRA_STAR' % rel)
+            elif not os.path.exists(copy) or not filecmp.cmp(live, copy, shallow=False):
+                stale.append(os.path.basename(rel))
+        if stale:
+            line(BAD, 'star/ mirror behind MANTRA_STAR: %s (run install.sh)' % ', '.join(stale))
+        else:
+            line(OK, 'star/ mirror matches MANTRA_STAR (%d files)' % len(MIRROR))
+    else:
+        line(INFO, 'MANTRA_STAR is not on this Mac; star/ holds the last mirrored copies')
 
     # ---- the star's apps and their state
     hd = load_json(HOME + '/.config/hdbadge.json')

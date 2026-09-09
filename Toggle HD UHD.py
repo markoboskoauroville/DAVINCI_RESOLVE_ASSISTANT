@@ -11,8 +11,8 @@ DaVinci Resolve > Keyboard Customization (search for the script's name).
 What it does: reads the project's timeline resolution; 3840 wide becomes
 1920 x 1080, anything else becomes 3840 x 2160. The current timeline is set
 the same way when it keeps its own settings instead of the project's. Nothing
-else in the project is touched. If the HD UHD Badge is open (the other script
-beside this one), its label is updated too.
+else in the project is touched. The word beside the star (the star's UHD HD
+Display app) is repainted and the mode kept in ~/.config/hdbadge.json.
 """
 
 import os
@@ -20,7 +20,6 @@ import sys
 
 HD = ('1920', '1080', 'HD')
 UHD = ('3840', '2160', 'UHD')
-BADGE = 'HDUHDBadge'
 
 
 def get_resolve():

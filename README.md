@@ -22,9 +22,16 @@ command too.
                             which star apps are on, and the tail of the log. Exit 0 when all is well.
     install.sh              Copies the three Resolve scripts into Resolve's Scripts/Utility folder and runs check.py.
 
-    ~/Developer/MANTRA_STAR/overlay/pages_helper.py     the bridge: one Python process the star's Pages app keeps
-                            while Resolve runs; tells the page, opens pages, reads the page bar from UI.preset.
-    ~/Developer/MANTRA_STAR/apps/display.lua, apps/pages.lua      the two star apps that use all this.
+    star/                   The star's side of the assistant, mirrored here so this repository holds everything.
+                            The living copies are in ~/Developer/MANTRA_STAR (its own repository); `install.sh`
+                            refreshes the mirror and `check.py` says when it is behind.
+      pages_helper.py       the bridge: one Python process the star's Pages app keeps while Resolve runs; tells
+                            the page, opens pages, reads the page bar from UI.preset.
+      display.lua           the star app UHD HD Display: the word HD or UHD beside the star; a click or the
+                            shortcut set in its submenu runs Toggle HD UHD.py.
+      pages.lua             the star app Pages: ⌥` walks Resolve's pages like ⌘Tab (held: the row; ⇧` backwards);
+                            the ring is every page unless narrowed in its submenu.
+      hdbadge.lua, pagebadge.lua      the two words in the menu bar and the ⌘Tab-style row.
 
 ## The rules they keep
 
@@ -39,8 +46,19 @@ command too.
   changed", so the helper looks twice a second while Resolve runs, and only then.
 - **State is small JSON in ~/.config:** `hdbadge.json` (mode, shortcut), `pages.json` (mru, current,
   bar, ring, shortcut), `resolve-assistant.log`. Scripts inside Resolve and the star read the same files.
+- **Resolve's process is called `Resolve`**, not "DaVinci Resolve": look for it with
+  `pgrep -f "DaVinci Resolve.app/Contents/MacOS/Resolve"`. `pgrep -x "DaVinci Resolve"` never matched, so
+  the helper's first try after a launch said "gone" and the self-check never reached the API (found 9.9.2026).
+- **A Hammerspoon timer nobody holds is collected before it fires.** The apps' own "on again after a reload"
+  timers are kept on their module table; without that, Pages was found off while its file said enabled.
 - **The page bar's choice lives in UI.preset**, a hex Qt stream with one block per screen resolution;
   see MANTRA_STAR/LESSONS.md, lesson 6, before touching that parser.
+
+## Where it lives
+
+GitHub: https://github.com/markoboskoauroville/DAVINCI_RESOLVE_ASSISTANT (this folder, ~/Developer/resolve-scripts).
+Every change is committed and pushed. The star's side is developed in
+https://github.com/markoboskoauroville/MANTRA_STAR and mirrored into `star/` by `install.sh`.
 
 ## Install and check
 

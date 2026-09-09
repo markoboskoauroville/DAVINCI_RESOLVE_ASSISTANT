@@ -11,6 +11,9 @@ installed with `./install.sh`, which ends with the self-check.
 "resolve-scripts, the DaVinci Resolve Assistant" entry in `~/Downloads/API/PROJECTS.md` in the same turn,
 with the date. The other files in that folder hold keys: never read them out.
 
-**Git.** Every change is committed here. The GitHub remote does not exist yet; Marko creates it
-with `gh repo create markoboskoauroville/DAVINCI_RESOLVE_ASSISTANT --public --source . --remote origin --push`,
-after which every change is pushed too.
+**Git.** Every change is committed here and pushed to
+https://github.com/markoboskoauroville/DAVINCI_RESOLVE_ASSISTANT (remote `origin`, branch `master`).
+
+**The star's side.** `star/` mirrors pages_helper.py, the two badges and the two apps from
+~/Developer/MANTRA_STAR, where they are developed and committed (its own repository, pushed too).
+Edit them there, then `./install.sh` refreshes the mirror; `check.py` flags a mirror that is behind.
