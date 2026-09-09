@@ -17,7 +17,7 @@ import time
 HOME = os.path.expanduser('~')
 HERE = os.path.dirname(os.path.abspath(__file__))
 UTILITY = HOME + '/Library/Application Support/Blackmagic Design/DaVinci Resolve/Fusion/Scripts/Utility'
-SCRIPTS = ['Toggle HD UHD.py', 'Previous Page.py']
+SCRIPTS = ['Toggle HD UHD.py', 'Previous Page.py', 'Create Timeline.py']
 HELPER = HOME + '/Developer/MANTRA_STAR/overlay/pages_helper.py'
 LOG = HOME + '/.config/resolve-assistant.log'
 PREF = HOME + '/Library/Preferences/Blackmagic Design/DaVinci Resolve/UI.preset'

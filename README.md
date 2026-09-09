@@ -12,12 +12,15 @@ command too.
                             own settings) flips between 1920x1080 and 3840x2160. The star's UHD HD Display word
                             follows (~/.config/hdbadge.json). `--read` from outside says the mode and changes nothing.
     Previous Page.py        Workspace > Scripts > Utility > Previous Page. Back to the page used before this one,
-                            among the pages ticked in the page bar; twice and you are where you started. Shares
+                            among every page unless the star's submenu narrowed the ring; twice and you are back. Shares
                             ~/.config/pages.json with the star's Pages app.
+    Create Timeline.py      Workspace > Scripts > Utility > Create Timeline. A new timeline from the clips selected
+                            in the Media Pool, named after the first clip (extension off; "name 2" if taken), nothing
+                            asked. Give it a shortcut in Keyboard Customization.
     check.py                The self-check, run from a terminal: is Resolve up, does its API answer, which project,
                             resolution, page, which pages are in the bar, are the scripts installed and current,
                             which star apps are on, and the tail of the log. Exit 0 when all is well.
-    install.sh              Copies the two Resolve scripts into Resolve's Scripts/Utility folder and runs check.py.
+    install.sh              Copies the three Resolve scripts into Resolve's Scripts/Utility folder and runs check.py.
 
     ~/Developer/MANTRA_STAR/overlay/pages_helper.py     the bridge: one Python process the star's Pages app keeps
                             while Resolve runs; tells the page, opens pages, reads the page bar from UI.preset.

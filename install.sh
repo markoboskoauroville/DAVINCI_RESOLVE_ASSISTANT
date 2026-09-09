@@ -3,7 +3,7 @@
 #
 #   ~/Developer/resolve-scripts/install.sh
 #
-# Copies Toggle HD UHD.py and Previous Page.py into Resolve's Scripts/Utility
+# Copies Toggle HD UHD.py, Previous Page.py and Create Timeline.py into Resolve's Scripts/Utility
 # folder (Workspace > Scripts > Utility inside Resolve; Resolve reads the folder
 # every time the menu opens, no restart needed) and runs check.py.
 
@@ -14,7 +14,7 @@ PYTHON="$HOME/.pyenv/versions/3.10.14/bin/python3"
 [ -x "$PYTHON" ] || PYTHON=python3
 
 mkdir -p "$UTILITY"
-for name in "Toggle HD UHD.py" "Previous Page.py"; do
+for name in "Toggle HD UHD.py" "Previous Page.py" "Create Timeline.py"; do
     cp "$HERE/$name" "$UTILITY/$name"
     echo "installed  $name"
 done

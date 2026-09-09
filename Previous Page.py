@@ -9,9 +9,9 @@ DaVinci Resolve > Keyboard Customization (search for the script's name).
 
 This is the same jump as the star's Pages app makes on Option+`, from inside
 Resolve and without external scripting: back to the page used before this
-one, among the pages ticked in the page bar. Run it twice and you are where you
-started. It reads and writes the same file as the star, ~/.config/pages.json:
-the last-used order (mru), the pages in the page bar (bar) and, if the star's
+one, among every page unless the star's submenu narrowed the ring. Run it
+twice and you are where you started. It reads and writes the same file as the
+star, ~/.config/pages.json: the last-used order (mru) and, if the star's
 submenu chose its own ring, that choice (ring). Without the star the file is
 still kept, so the back-and-forth works alone.
 """
@@ -63,7 +63,7 @@ def main():
         return 2
     current = (r.GetCurrentPage() or 'none').lower()
     s = load()
-    ring = s.get('ring') or s.get('bar') or [p for p in ORDER if p != 'photo']
+    ring = s.get('ring') or ORDER                     # every page, unless the star's submenu narrowed it
     ring = [p for p in ORDER if p in ring]
     mru = [p for p in s.get('mru', []) if p in ORDER]
     target = next((p for p in mru if p != current and p in ring), None)
