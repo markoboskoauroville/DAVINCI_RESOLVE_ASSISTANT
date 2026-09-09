@@ -41,12 +41,23 @@ STATE = os.path.expanduser('~/.config/hdbadge.json')
 
 
 def remember(mode):
-    """The last known mode, for the star's UHD HD Display when it cannot ask Resolve."""
+    """The last known mode, for the star's UHD HD Display when it cannot ask Resolve.
+    Only the mode is touched: the file also holds the star's own keys (enabled,
+    hotkey), and rewriting it whole once switched the display app off (9.9.2026)."""
     import json
+    state = {}
+    try:
+        with open(STATE) as fh:
+            state = json.load(fh)
+        if not isinstance(state, dict):
+            state = {}
+    except (OSError, ValueError):
+        pass
+    state['mode'] = mode
     try:
         os.makedirs(os.path.dirname(STATE), exist_ok=True)
         with open(STATE, 'w') as fh:
-            json.dump({'mode': mode}, fh)
+            json.dump(state, fh)
     except OSError:
         pass
 
