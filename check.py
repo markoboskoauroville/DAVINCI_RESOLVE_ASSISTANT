@@ -22,7 +22,8 @@ STAR = HOME + '/Developer/MANTRA_STAR'
 HELPER = STAR + '/overlay/pages_helper.py'
 # the star's side of the assistant, mirrored into star/ here so the GitHub repo holds everything;
 # the living copies are in MANTRA_STAR, install.sh refreshes the mirror
-MIRROR = ['overlay/pages_helper.py', 'overlay/hdbadge.lua', 'overlay/pagebadge.lua', 'apps/display.lua', 'apps/pages.lua']
+MIRROR = ['overlay/pages_helper.py', 'overlay/hdbadge.lua', 'overlay/pagebadge.lua', 'apps/display.lua', 'apps/pages.lua',
+          'apps/importclick.lua']
 LOG = HOME + '/.config/resolve-assistant.log'
 PREF = HOME + '/Library/Preferences/Blackmagic Design/DaVinci Resolve/UI.preset'
 VERSION = HOME + '/Library/Preferences/Blackmagic Design/DaVinci Resolve/.version'
@@ -147,6 +148,8 @@ def main():
         'on' if pg.get('enabled') else 'off', pg.get('hotkey') or 'alt+`',
         ' > '.join(pg.get('mru', [])[:4]) or 'nothing yet',
         (', own ring: ' + ', '.join(pg['ring'])) if isinstance(pg.get('ring'), list) else ''))
+    ic = load_json(HOME + '/.config/importclick.json')
+    line(INFO, 'Import Click: %s, presses %s' % ('on' if ic.get('enabled') else 'off', ic.get('keys') or 'cmd+I'))
     try:
         out = subprocess.run(['pgrep', '-f', 'pages_helper.py'], capture_output=True, text=True, timeout=3).stdout.split()
         line(INFO, 'pages_helper processes: %d' % len(out))

@@ -14,6 +14,13 @@ Lines in on stdin, lines out on stdout:
     in   pages                 out  pages edit,fusion,color,fairlight,deliver
     in   quit                  the process ends
 
+One-shot roads for other star apps, no conversation:
+
+    pages_helper.py --selected     prints  selected <n>  (clips selected in the Media Pool)
+                                   and exits; selected ? and exit 1 when Resolve cannot say.
+                                   Import Click (apps/importclick.lua) asks this after a
+                                   double-click on the Media Pool: 0 means an empty spot.
+
 and by itself, every time Resolve's page changes (looked at twice a second:
 Resolve's API has no event for it, so this is the one place a poll exists),
 a line  page <name>.  While Resolve is up but not answering (a project still
@@ -164,6 +171,30 @@ def current_page(r):
     return (page or 'none').lower()
 
 
+def selected_clips(r):
+    """How many clips are selected in the Media Pool, or None when Resolve cannot say
+    (no project open, the API dropped). A double-click on an empty spot leaves nothing selected."""
+    try:
+        pm = r.GetProjectManager()
+        project = pm.GetCurrentProject() if pm else None
+        pool = project.GetMediaPool() if project else None
+        if not pool:
+            log('selected: no project open')
+            return None
+        return len(pool.GetSelectedClips() or [])
+    except Exception as e:                                       # noqa: BLE001
+        log('GetSelectedClips failed: %s' % e)
+        return None
+
+
+def one_shot_selected():
+    """pages_helper.py --selected: one line, then out. Exit 1 when Resolve cannot say."""
+    r = get_resolve() if resolve_running() else None
+    n = selected_clips(r) if r else None
+    say('selected %s' % ('?' if n is None else n))
+    return 0 if n is not None else 1
+
+
 def stdin_line(timeout):
     """One line from the star, or None after timeout; '' when the star closed our stdin."""
     ready, _, _ = select.select([sys.stdin], [], [], timeout)
@@ -272,4 +303,6 @@ def main():
 
 
 if __name__ == '__main__':
+    if '--selected' in sys.argv[1:]:
+        sys.exit(one_shot_selected())
     sys.exit(main())
