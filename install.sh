@@ -24,7 +24,7 @@ done
 
 if [ -d "$STAR" ]; then
     mkdir -p "$HERE/star"
-    for rel in overlay/pages_helper.py overlay/hdbadge.lua overlay/pagebadge.lua apps/display.lua apps/pages.lua apps/importclick.lua; do
+    for rel in overlay/pages_helper.py overlay/hdbadge.lua overlay/pagebadge.lua apps/display.lua apps/pages.lua apps/importbutton.lua; do
         if [ -f "$STAR/$rel" ]; then
             cp "$STAR/$rel" "$HERE/star/$(basename "$rel")"
             echo "mirrored   star/$(basename "$rel")"

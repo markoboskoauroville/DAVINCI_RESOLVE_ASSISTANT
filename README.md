@@ -26,16 +26,10 @@ command too.
                             The living copies are in ~/Developer/MANTRA_STAR (its own repository); `install.sh`
                             refreshes the mirror and `check.py` says when it is behind.
       pages_helper.py       the bridge: one Python process the star's Pages app keeps while Resolve runs; tells
-                            the page, opens pages, reads the page bar from UI.preset. `--selected` is its one-shot
-                            road: prints how many clips the Media Pool has selected, and exits.
-      importclick.lua       the star app Import Click: a double-click on an EMPTY spot of the Media Pool opens
-                            File > Import > Media... (⌘I), as Premiere and After Effects do. A double-click on a
-                            clip, a bin, the toolbar or anywhere else is left to Resolve.
-      display.lua           the star app UHD HD Display: the word HD or UHD beside the star; a click or the
-                            shortcut set in its submenu runs Toggle HD UHD.py.
-      pages.lua             the star app Pages: ⌥` walks Resolve's pages like ⌘Tab (held: the row; ⇧` backwards);
-                            the ring is every page unless narrowed in its submenu.
-      hdbadge.lua, pagebadge.lua      the two words in the menu bar and the ⌘Tab-style row.
+                            the page, opens pages, reads the page bar from UI.preset.
+      importbutton.lua      the star app Import Button: mouse button 4 (X1, the thumb button) pressed inside Resolve
+                            is ⌘I, Import Media, the way Adobe's apps open their import dialog in one gesture. The
+                            submenu learns which button it is (press it) and which key it presses.
 
 ## The rules they keep
 
@@ -50,12 +44,11 @@ command too.
   changed", so the helper looks twice a second while Resolve runs, and only then.
 - **State is small JSON in ~/.config:** `hdbadge.json` (mode, shortcut), `pages.json` (mru, current,
   bar, ring, shortcut), `resolve-assistant.log`. Scripts inside Resolve and the star read the same files.
-- **The Media Pool is found by accessibility, the empty spot by the API** (Import Click). Resolve's Qt window
-  exposes the Media Pool as the split group whose toolbar holds the *Bin List* checkbox, its clip area as the
-  inner split group that is not the bin list (the one with *Add Bin*). The clips themselves are not in that
-  tree, so whether the spot was empty is asked of the API a quarter second after the click: nothing selected
-  means empty. With External scripting shut the app says so once and opens nothing, rather than a dialog over
-  a clip. One `elementAtPosition` costs a millisecond; walking Resolve's whole tree costs minutes, never do it.
+- **A double-click on the Media Pool cannot be caught for Marko's hand** (Import Click, 11.9.2026, deleted the
+  same day: "this macro doesn't work"). It found the pool by accessibility and the empty spot by the API's
+  selection; it answered a synthetic double-click and not his. The Import Button, a mouse button that is ⌘I
+  inside Resolve, replaced it. Resolve's accessibility tree is still worth knowing: one `elementAtPosition`
+  costs a millisecond, walking the whole tree costs minutes, never do it.
 - **`hs -c` piped into `head` hangs the client** (11.9.2026): probes that looked stuck were only that. Send the
   output to a file and read it.
 - **Resolve's process is called `Resolve`**, not "DaVinci Resolve": look for it with
@@ -78,5 +71,5 @@ https://github.com/markoboskoauroville/MANTRA_STAR and mirrored into `star/` by 
     python3 ~/Developer/resolve-scripts/check.py   the state of everything, in one screen
 
 Shortcuts for the scripts inside Resolve: DaVinci Resolve > Keyboard Customization, search for the
-script's name. The star's shortcuts (⌥` for pages, the UHD HD one, the key Import Click presses) are set
+script's name. The star's shortcuts (⌥` for pages, the UHD HD one, the button and key of Import Button) are set
 from the star's submenus.
