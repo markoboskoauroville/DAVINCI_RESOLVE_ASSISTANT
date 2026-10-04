@@ -8,28 +8,30 @@ command too.
 
 ## The pieces
 
-    Toggle HD UHD.py        Workspace > Scripts > Utility > Toggle HD UHD. The project (and a timeline with its
-                            own settings) flips between 1920x1080 and 3840x2160. The star's UHD HD Display word
-                            follows (~/.config/hdbadge.json). `--read` from outside says the mode and changes nothing.
-    Previous Page.py        Workspace > Scripts > Utility > Previous Page. Back to the page used before this one,
-                            among every page unless the star's submenu narrowed the ring; twice and you are back. Shares
-                            ~/.config/pages.json with the star's Pages app.
-    Create Timeline.py      Workspace > Scripts > Utility > Create Timeline. A new timeline from the clips selected
-                            in the Media Pool, named after the first clip (extension off; "name 2" if taken), nothing
-                            asked. Give it a shortcut in Keyboard Customization.
-    check.py                The self-check, run from a terminal: is Resolve up, does its API answer, which project,
-                            resolution, page, which pages are in the bar, are the scripts installed and current,
-                            which star apps are on, and the tail of the log. Exit 0 when all is well.
-    install.sh              Copies the three Resolve scripts into Resolve's Scripts/Utility folder and runs check.py.
+```
+Toggle HD UHD.py        Workspace > Scripts > Utility > Toggle HD UHD. The project (and a timeline with its
+                        own settings) flips between 1920x1080 and 3840x2160. The star's UHD HD Display word
+                        follows (~/.config/hdbadge.json). `--read` from outside says the mode and changes nothing.
+Previous Page.py        Workspace > Scripts > Utility > Previous Page. Back to the page used before this one,
+                        among every page unless the star's submenu narrowed the ring; twice and you are back. Shares
+                        ~/.config/pages.json with the star's Pages app.
+Create Timeline.py      Workspace > Scripts > Utility > Create Timeline. A new timeline from the clips selected
+                        in the Media Pool, named after the first clip (extension off; "name 2" if taken), nothing
+                        asked. Give it a shortcut in Keyboard Customization.
+check.py                The self-check, run from a terminal: is Resolve up, does its API answer, which project,
+                        resolution, page, which pages are in the bar, are the scripts installed and current,
+                        which star apps are on, and the tail of the log. Exit 0 when all is well.
+install.sh              Copies the three Resolve scripts into Resolve's Scripts/Utility folder and runs check.py.
 
-    star/                   The star's side of the assistant, mirrored here so this repository holds everything.
-                            The living copies are in ~/Developer/MANTRA_STAR (its own repository); `install.sh`
-                            refreshes the mirror and `check.py` says when it is behind.
-      pages_helper.py       the bridge: one Python process the star's Pages app keeps while Resolve runs; tells
-                            the page, opens pages, reads the page bar from UI.preset.
-      importbutton.lua      the star app Import Button: mouse button 4 (X1, the thumb button) pressed inside Resolve
-                            is ⌘I, Import Media, the way Adobe's apps open their import dialog in one gesture. The
-                            submenu learns which button it is (press it) and which key it presses.
+star/                   The star's side of the assistant, mirrored here so this repository holds everything.
+                        The living copies are in ~/Developer/MANTRA_STAR (its own repository); `install.sh`
+                        refreshes the mirror and `check.py` says when it is behind.
+  pages_helper.py       the bridge: one Python process the star's Pages app keeps while Resolve runs; tells
+                        the page, opens pages, reads the page bar from UI.preset.
+  importbutton.lua      the star app Import Button: mouse button 4 (X1, the thumb button) pressed inside Resolve
+                        is ⌘I, Import Media, the way Adobe's apps open their import dialog in one gesture. The
+                        submenu learns which button it is (press it) and which key it presses.
+```
 
 ## The rules they keep
 
@@ -67,8 +69,10 @@ https://github.com/markoboskoauroville/MANTRA_STAR and mirrored into `star/` by 
 
 ## Install and check
 
-    ~/Developer/resolve-scripts/install.sh        copy the scripts into Resolve, then check
-    python3 ~/Developer/resolve-scripts/check.py   the state of everything, in one screen
+```
+~/Developer/resolve-scripts/install.sh        copy the scripts into Resolve, then check
+python3 ~/Developer/resolve-scripts/check.py   the state of everything, in one screen
+```
 
 Shortcuts for the scripts inside Resolve: DaVinci Resolve > Keyboard Customization, search for the
 script's name. The star's shortcuts (⌥` for pages, the UHD HD one, the button and key of Import Button) are set
